@@ -11,7 +11,7 @@ func convert(selectedFromUnit: String, selectedToUnit: String, fromValueString: 
     let fromValue = Double(fromValueString) ?? 0.0
     switch selectedFromUnit+selectedToUnit {
         case "CelsiusFahrenheit":
-            return (fromValue - 273.15) * 5/9
+            return fromValue * 9/5 + 32
         case "CelsiusKelvin":
             return fromValue + 273.15
         case "FahrenheitKelvin":
@@ -31,7 +31,7 @@ func convert(selectedFromUnit: String, selectedToUnit: String, fromValueString: 
         case "MetersMiles":
             return fromValue / 1609.34
         case "InchesMeters":
-            return fromValue / 39.37
+            return fromValue / 39.3701
         case "InchesFeet":
             return fromValue / 12.0
         case "InchesYards":
@@ -39,7 +39,7 @@ func convert(selectedFromUnit: String, selectedToUnit: String, fromValueString: 
         case "InchesMiles":
             return fromValue / 63360.0
         case "FeetMeters":
-            return fromValue / 0.3048
+            return fromValue * 0.3048
         case "FeetInches":
             return fromValue * 12.0
         case "FeetYards":
@@ -51,15 +51,15 @@ func convert(selectedFromUnit: String, selectedToUnit: String, fromValueString: 
         case "YardsInches":
             return fromValue * 36.0
         case "YardsFeet":
-            return fromValue / 3.0
+            return fromValue * 3.0
         case "YardsMiles":
-            return fromValue / 4828.0
+            return fromValue / 1760.0
         case "MilesMeters":
             return fromValue * 1609.34
         case "MilesFeet":
             return fromValue * 5280.0
         case "MilesYards":
-            return fromValue * 4828.0
+            return fromValue * 1760.0
         case "MilesInches":
             return fromValue * 63360.0
         case "Sq.MetersSq.Inches":
@@ -69,7 +69,7 @@ func convert(selectedFromUnit: String, selectedToUnit: String, fromValueString: 
         case "Sq.MetersSq.Yards":
             return fromValue * 1.19599
         case "Sq.MetersSq.Miles":
-            return fromValue * 9.99995
+            return fromValue / 2589988.11
         case "Sq.InchesSq.Meters":
             return fromValue / 1550.03
         case "Sq.InchesSq.Feet":
@@ -77,7 +77,7 @@ func convert(selectedFromUnit: String, selectedToUnit: String, fromValueString: 
         case "Sq.InchesSq.Yards":
             return fromValue / 1296.0
         case "Sq.InchesSq.Miles":
-            return fromValue / 107639.0
+            return fromValue / 4014489600.0
         case "Sq.FeetSq.Meters":
             return fromValue / 10.7639
         case "Sq.FeetSq.Inches":
@@ -85,47 +85,47 @@ func convert(selectedFromUnit: String, selectedToUnit: String, fromValueString: 
         case "Sq.FeetSq.Yards":
             return fromValue / 9.0
         case "Sq.FeetSq.Miles":
-            return fromValue / 6400.0
+            return fromValue / 27878400.0
         case "Sq.YardsSq.Meters":
             return fromValue / 1.19599
         case "Sq.YardsSq.Inches":
             return fromValue * 1296.0
         case "Sq.YardsSq.Feet":
-            return fromValue / 3.0
+            return fromValue * 9.0
         case "Sq.YardsSq.Miles":
-            return fromValue / 27878.4
+            return fromValue / 3097600.0
         case "Sq.MilesSq.Meters":
-            return fromValue / 9.99995
+            return fromValue * 2589988.11
         case "Sq.MilesSq.Inches":
-            return fromValue * 107639.0
+            return fromValue * 4014489600.0
         case "Sq.MilesSq.Feet":
-            return fromValue / 6400.0
+            return fromValue * 27878400.0
         case "Sq.MilesSq.Yards":
-            return fromValue / 8.80974
+            return fromValue * 3097600.0
         case "LitresOunces":
-            return fromValue * 35.274
+            return fromValue * 33.814
         case "LitresPints":
             return fromValue * 2.11338
         case "LitresBarrels":
-            return fromValue * 0.00838675
+            return fromValue / 119.240471
         case "OuncesLitres":
-            return fromValue / 35.274
+            return fromValue / 33.814
         case "OuncesPints":
-            return fromValue / 17.5975
-        case "OncesBarrels":
-            return fromValue / 0.00284137
+            return fromValue / 16.0
+        case "OuncesBarrels":
+            return fromValue / 5376.0
         case "PintsLitres":
             return fromValue / 2.11338
         case "PintsOunces":
-            return fromValue * 17.5975
+            return fromValue * 16.0
         case "PintsBarrels":
-            return fromValue / 0.00976563
+            return fromValue / 336.0
         case "BarrelsLitres":
-            return fromValue / 0.00838675
+            return fromValue * 119.240471
         case "BarrelsOunces":
-            return fromValue * 0.00284137
+            return fromValue * 5376.0
         case "BarrelsPints":
-            return fromValue * 0.00976563
+            return fromValue * 336.0
         default:
             return 0.0
     }
