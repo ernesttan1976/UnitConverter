@@ -67,7 +67,7 @@ func convert(selectedFromUnit: String, selectedToUnit: String, fromValueString: 
         case "Sq.MetersSq.Feet":
             return fromValue * 10.7639
         case "Sq.MetersSq.Yards":
-            return fromValue * 1.19599
+            return fromValue * 1.1959900463
         case "Sq.MetersSq.Miles":
             return fromValue / 2589988.11
         case "Sq.InchesSq.Meters":
@@ -87,7 +87,7 @@ func convert(selectedFromUnit: String, selectedToUnit: String, fromValueString: 
         case "Sq.FeetSq.Miles":
             return fromValue / 27878400.0
         case "Sq.YardsSq.Meters":
-            return fromValue / 1.19599
+            return fromValue * 0.836127
         case "Sq.YardsSq.Inches":
             return fromValue * 1296.0
         case "Sq.YardsSq.Feet":
@@ -155,6 +155,14 @@ struct ContentView: View {
     var toValue: Double {
         return convert(selectedFromUnit: selectedFromUnit, selectedToUnit: selectedToUnit, fromValueString: fromValue)
     }
+    var listOfUnits: [String] {
+        let index = conversionTypes.firstIndex(of: selectedConversionType) ?? nil
+        
+        if let index {
+            return units[index].filter { $0 != selectedFromUnit }
+        }
+        return [String]()
+    }
     
     var body: some View {
         NavigationStack {
@@ -168,35 +176,53 @@ struct ContentView: View {
                     .pickerStyle(SegmentedPickerStyle())
                     HStack {
                         TextField("From",  text: $fromValue)
-                            .frame(width: 120, alignment: .init(horizontal: .trailing, vertical: .center))
+                            .multilineTextAlignment(.trailing)
                             .keyboardType(.decimalPad)
                             .focused($numberFieldFocused)
-                            
-                            Picker("", selection: $selectedFromUnit) {
-                                ForEach(units[conversionTypes.firstIndex(of: selectedConversionType) ?? 0], id: \.self){
-                                    Text("\($0)")
-                                }
-                            }.pickerStyle(.menu)
-                    }
-                    .frame(width: 300)
-
-                    HStack {
-                        Text("\(toValue.formatted())").frame(width: 120, alignment: .init(horizontal: .center, vertical: .center))
-                        Picker("", selection: $selectedToUnit) {
+                        
+                        Picker("", selection: $selectedFromUnit) {
                             ForEach(units[conversionTypes.firstIndex(of: selectedConversionType) ?? 0], id: \.self){
                                 Text("\($0)")
+                                
                             }
-                        }.pickerStyle(.menu)
-                    }
-                    .frame(width: 300)
-
-                    HStack {
-                        Spacer()
-                        Button("Swap") {
-                            swap(a: &selectedFromUnit, b: &selectedToUnit)
                         }
-                    }.frame(width: 300)
-                    
+                        .pickerStyle(.menu)
+                        .frame(width: 120, alignment: .leading)
+                        .labelsHidden()
+                    }
+
+//                    HStack {
+//                        Text("\(toValue.formatted())").frame(width: 120, alignment: .init(horizontal: .center, vertical: .center))
+//                        Picker("", selection: $selectedToUnit) {
+//                            ForEach(units[conversionTypes.firstIndex(of: selectedConversionType) ?? 0], id: \.self){
+//                                Text("\($0)")
+//                            }
+//                        }.pickerStyle(.menu)
+//                    }
+//                    .frame(width: 300)
+//
+//                    HStack {
+//                        Spacer()
+//                        Button("Swap") {
+//                            swap(a: &selectedFromUnit, b: &selectedToUnit)
+//                        }
+//                    }.frame(width: 300)
+//                    HStack{
+//                        Spacer()
+//                        Text("=")
+//                            .frame(width: 120, alignment: .leading)
+//                    }
+                    List {
+                        ForEach(listOfUnits, id: \.self) { unit in
+                            HStack {
+                                Spacer()
+                                Text(" \(convert(selectedFromUnit: selectedFromUnit, selectedToUnit: unit, fromValueString: fromValue).formatted())").foregroundColor(.gray)
+                                Text("\(unit)")
+                                    .frame(width: 120, alignment: .leading)
+                                    .foregroundColor(.blue)
+                            }
+                        }
+                    }
                     
                 }
             }
@@ -207,6 +233,11 @@ struct ContentView: View {
                     Button("Done") {
                         numberFieldFocused = false
                     }
+                }
+            }
+            .onChange(of: selectedConversionType) { oldValue, newValue in
+                if let index = conversionTypes.firstIndex(of: newValue), !units[index].isEmpty {
+                    selectedFromUnit = units[index][0]
                 }
             }
         }
